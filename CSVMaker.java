@@ -14,6 +14,9 @@ public class CSVMaker {
         Random random = new Random();
         for (int i = 0; i < numberOfIntegers; i++) {
             int randomNumber = random.nextInt();
+            if (randomNumber<0){
+                randomNumber *= -1;
+            }
             csvContent.append(randomNumber);
             csvContent.append(",");
         }
