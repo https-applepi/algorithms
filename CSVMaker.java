@@ -29,7 +29,8 @@ public class CSVMaker {
 
         // Write CSV content to file
         try (FileWriter writer = new FileWriter("integers.csv")) {
-            writer.write(csvContent.toString());
+            writer.write(numberOfIntegers + ",");
+            writer.append(csvContent.toString());
             System.out.println("CSV file 'integers.csv' has been created successfully.");
         } catch (IOException e) {
             System.err.println("An error occurred while writing the CSV file: " + e.getMessage());
