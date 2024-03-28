@@ -2,6 +2,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
+
+//code that creates a CSV file of specified size with random positive integers
 public class CSVMaker {
     public static void main(String[] args) {
         // Define the number of integers to generate
@@ -14,9 +16,11 @@ public class CSVMaker {
         Random random = new Random();
         for (int i = 0; i < numberOfIntegers; i++) {
             int randomNumber = random.nextInt();
+            //making negative integers positive
             if (randomNumber<0){
                 randomNumber *= -1;
             }
+            //writing the numbers into a stringbuilder that holds all the values
             csvContent.append(randomNumber);
             csvContent.append(",");
         }
