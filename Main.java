@@ -32,3 +32,14 @@ public class Main {
         return isSorted;
     }
 }
+class PTPSort
+{
+    public int[] PTPSort(int a, int beg, int end){
+        if((end - beg +1)< )
+            if(!PartitionOnly){
+                OpenMP Task
+                STLSort(a+beg,a+end+1);
+            }
+    }
+}
+
