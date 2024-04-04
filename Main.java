@@ -1,3 +1,5 @@
+
+
 import java.io.File;
 import java.util.Scanner;
 
@@ -32,6 +34,17 @@ public class Main {
         return isSorted;
     }
 }
+class Node {
+    Node left;
+    Node right;
+    int data;
+
+    public Node(int data) {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
 class PTPSort
 {
     public int[] PTPSort(int a, int beg, int end){
@@ -42,4 +55,49 @@ class PTPSort
             }
     }
 }
+class Traverse implements Runnable {
+    private final Node node;
+
+    public Traverse(Node node) {
+        this.node = node;
+    }
+
+    @Override
+    public void run() {
+        traverse(node);
+    }
+
+    private void traverse(Node p) {
+        if (p == null)
+            return;
+
+        Thread leftThread = null;
+        Thread rightThread = null;
+
+        if (p.left != null) {
+            Traverse tLeft = new Traverse(p.left);
+            leftThread = new Thread(tLeft);
+            leftThread.start();
+        }
+
+        if (p.right != null) {
+            Traverse tRight = new Traverse(p.right);
+            rightThread = new Thread(tRight);
+            rightThread.start();
+        }
+
+        try {
+            if (leftThread != null)
+                leftThread.join(); // Wait for the left thread to finish
+            if (rightThread != null)
+                rightThread.join(); // Wait for the right thread to finish
+
+            // Do whatever processing you need to do with the current node here
+            System.out.println("Processed node: " + p.data);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
 
