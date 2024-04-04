@@ -33,6 +33,24 @@ public class Main {
         }
         return isSorted;
     }
+
+    private int hoare(int[] array, int start, int end, int pivot) {
+        int i = start, j = end, swap;
+        while (true) {
+            while (array[i] < pivot) {
+                i++;
+            }
+            while (array[j] >= pivot) {
+                j--;
+            }
+            if (i > j) {
+                return j-1;
+            }
+            swap = i;
+            i = j;
+            j = swap;
+        }
+    }
 }
 class Node {
     Node left;
