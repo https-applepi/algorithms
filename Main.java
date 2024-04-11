@@ -25,6 +25,31 @@ public class Main {
             }
         }
     }
+    int [] Sampling(int [] a, int begin, int end ){
+        int [] array = new int[3];
+        Random rand = new Random();
+        for (int i = 0; i < 3; i++) {
+            int index = rand.nextInt(end - begin + 1) + begin;
+            while (contains(array, index)) {
+                index = rand.nextInt(end - begin + 1) + begin;
+            }
+            array[i] = index;
+
+        }
+        Arrays.sort(array);
+        System.out.println(array[0]);
+        System.out.println(array[1]);
+        System.out.println(array[2]);
+        return array;
+    }
+    public static boolean contains(int[] array, int value) {
+        for (int num : array) {
+            if (num == value) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private int hoare(int[] array, int start, int end, int pivot) {
         int i = start, j = end, swap;
@@ -61,6 +86,7 @@ public class Main {
         int[] testArray = {10, 2, 3, 4, 5, 6, 7, 7, 7, 10};
         Main main = new Main();
         main.PTPSort(testArray,0,10);
+        main.Sampling(testArray,0,10);
         System.out.println(main.testIfSorted(testArray));
     }
 }
