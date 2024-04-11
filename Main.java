@@ -52,12 +52,24 @@ public class Main {
 }
 class PTPSort
 {
-    public int[] PTPSort(int a, int beg, int end){
-        if((end - beg +1)< )
+    public void PTPSort(int a, int beg, int end){
+        if((end - beg +1)< ) {
             if(!PartitionOnly){
-                OpenMP Task
-                STLSort(a+beg,a+end+1);
+                Thread a = new Thread(STLSort(a+beg, a+end+1));
+                a.start();
+                wait();
             }
+            return;
+        }
+        len = (beg - end) / 2;
+        //iPlo, iPmi, IPhi
+        int iL, iH;
+        Thread leftHalf = new Thread(() -> {iL = hoare(a, beg, beg+len-1, a[iPlo])});
+        Thread rightHalf = new Thread(() -> {iH = hoare(a, beg+len, end, a[IPhi])});
+        leftHalf.start();
+        rightHalf.start();
+        wait();
+        i
     }
 }
 
