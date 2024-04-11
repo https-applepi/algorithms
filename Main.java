@@ -22,11 +22,21 @@ public class Main {
             }
             return;
         }
-        len = (beg - end) / 2;
-        //iPlo, iPmi, IPhi
-        int iL, iH;
+        int[] sample = Sampling(a, beg, end);
+        int iPlo = sample[0], iPmi = sample[1], iPhi = sample[2];
+        int iL, iH, ilm, imh;
         Thread leftHalf = new Thread(() -> {iL = hoare(a, beg, beg+len-1, a[iPlo])});
-        Thread rightHalf = new Thread(() -> {iH = hoare(a, beg+len, end, a[IPhi])});
+        Thread rightHalf = new Thread(() -> {iH = hoare(a, beg+len, end, a[iPhi])});
+        leftHalf.start();
+        rightHalf.start();
+        wait();
+        int iM = hoare(a, iL, iH-1, a[iPlo]);
+        leftHalf = new Thread(() -> {ilm = hoare(a, i, imh, a[iPlo]);
+                                    PTPSort(a, beg, ilm-1);
+                                    PTPSort(a, ilm-1, iM-1);});
+        rightHalf = new Thread(() -> {imh = hoare(a, iM, iH-1, a[iPhi]);
+                                    PTPSort(a, iM, imh-1);
+                                    PTPSort(a, imh, end);});
         leftHalf.start();
         rightHalf.start();
         wait();
