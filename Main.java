@@ -22,8 +22,8 @@ public class Main {
             }
             return;
         }
-        len = (beg - end) / 2;
-        //iPlo, iPmi, IPhi
+        int[] sample = Sampling(a, beg, end);
+        int iPlo = sample[0], iPmi = sample[1], iPhi = sample[2];
         int iL, iH, ilm, imh;
         Thread leftHalf = new Thread(() -> {iL = hoare(a, beg, beg+len-1, a[iPlo])});
         Thread rightHalf = new Thread(() -> {iH = hoare(a, beg+len, end, a[iPhi])});
