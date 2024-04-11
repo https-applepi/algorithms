@@ -1,5 +1,5 @@
 
-
+import java.util.*;
 import java.io.File;
 import java.util.Scanner;
 
@@ -11,6 +11,20 @@ public class Main {
             }
         }
         return true; //if no inconsistencies found, return true
+    }
+    int USTL = 100;
+    boolean partitionOnly = false;
+    public void PTPSort(int[] a, int beg, int end){
+        if((end - beg +1)<USTL){
+            if(!partitionOnly){
+                Arrays.sort(a);
+                return;
+            }
+            else{
+                int len = (beg - end)/2;
+                int lowPivot, MedPivot,HighPivot;
+            }
+        }
     }
 
     private int hoare(int[] array, int start, int end, int pivot) {
@@ -45,8 +59,9 @@ public class Main {
 
         //ptpSort(a);
         //test if is sorted, test array below.
-        int[] testArray = {1, 2, 3, 4, 5, 6, 7, 7, 7, 10};
+        int[] testArray = {10, 2, 3, 4, 5, 6, 7, 7, 7, 10};
         Main main = new Main();
+        main.PTPSort(testArray,0,10);
         System.out.println(main.testIfSorted(testArray));
     }
 }
@@ -63,16 +78,7 @@ class Node {
     }
 }
 
-class PTPSort
-{
-    public int[] PTPSort(int a, int beg, int end){
-        if((end - beg +1)< )
-            if(!PartitionOnly){
-                OpenMP Task
-                STLSort(a+beg,a+end+1);
-            }
-    }
-}
+
 
 class Traverse implements Runnable {
     private final Node node;
