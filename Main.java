@@ -14,16 +14,22 @@ public class Main {
     int USTL = 100;
     boolean partitionOnly = false;
     public void PTPSort(int[] a, int beg, int end){
-        if((end - beg +1)<USTL){
-            if(!partitionOnly){
-                Arrays.sort(a);
-                return;
+        if((end - beg +1)< ) {
+            if(!PartitionOnly){
+                Thread a = new Thread(STLSort(a+beg, a+end+1));
+                a.start();
+                wait();
             }
-            else{
-                int len = (beg - end)/2;
-                int lowPivot, MedPivot,HighPivot;
-            }
+            return;
         }
+        len = (beg - end) / 2;
+        //iPlo, iPmi, IPhi
+        int iL, iH;
+        Thread leftHalf = new Thread(() -> {iL = hoare(a, beg, beg+len-1, a[iPlo])});
+        Thread rightHalf = new Thread(() -> {iH = hoare(a, beg+len, end, a[IPhi])});
+        leftHalf.start();
+        rightHalf.start();
+        wait();
     }
     int [] Sampling(int [] a, int begin, int end ){
         int [] array = new int[3];
@@ -88,6 +94,5 @@ public class Main {
         main.PTPSort(testArray,0,10);
         main.Sampling(testArray,0,10);
         System.out.println(main.testIfSorted(testArray));
-    }
 }
 
