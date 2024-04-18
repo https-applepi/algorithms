@@ -11,37 +11,50 @@ public class Main {
         }
         return true; //if no inconsistencies found, return true
     }
-    int USTL = 100;
-    boolean partitionOnly = false;
-    public void PTPSort(int[] a, int beg, int end){
-        if((end - beg +1)< ) {
-            if(!PartitionOnly){
-                Thread a = new Thread(STLSort(a+beg, a+end+1));
-                a.start();
-                wait();
+    static int USTL = 2500;
+    public static int iL, iH, ilm, imh;
+    static boolean partitionOnly = false;
+    public static void PTPSort(int[] a, int beg, int end){
+        if((end - beg +1)< USTL) {
+            if(!partitionOnly){
+                Thread b = new Thread(() -> {Arrays.sort(a);});
+                b.start();
+                try {
+                    b.join();
+                } catch (InterruptedException e) {
+                }
             }
             return;
         }
+        int len = (end-beg)/2;
         int[] sample = Sampling(a, beg, end);
         int iPlo = sample[0], iPmi = sample[1], iPhi = sample[2];
-        int iL, iH, ilm, imh;
-        Thread leftHalf = new Thread(() -> {iL = hoare(a, beg, beg+len-1, a[iPlo])});
-        Thread rightHalf = new Thread(() -> {iH = hoare(a, beg+len, end, a[iPhi])});
+        
+        Thread leftHalf = new Thread(() -> {iL = hoare(a, beg, beg+len-1, a[iPlo]);});
+        Thread rightHalf = new Thread(() -> {iH = hoare(a, beg+len, end, a[iPhi]);});
         leftHalf.start();
         rightHalf.start();
-        wait();
-        int iM = hoare(a, iL, iH-1, a[iPlo]);
-        leftHalf = new Thread(() -> {ilm = hoare(a, i, imh, a[iPlo]);
+        try {
+            leftHalf.join();
+            rightHalf.join();
+        } catch (InterruptedException e) {
+        }
+        int iM = hoare(a, iL, iH-1, a[iPmi]);
+        leftHalf = new Thread(() -> {ilm = hoare(a, iL, iM-1, a[iPlo]);
                                     PTPSort(a, beg, ilm-1);
-                                    PTPSort(a, ilm-1, iM-1);});
+                                    PTPSort(a, ilm, iM-1);});
         rightHalf = new Thread(() -> {imh = hoare(a, iM, iH-1, a[iPhi]);
                                     PTPSort(a, iM, imh-1);
                                     PTPSort(a, imh, end);});
         leftHalf.start();
         rightHalf.start();
-        wait();
+        try {
+            leftHalf.join();
+            rightHalf.join();
+        } catch (InterruptedException e) {
+        }
     }
-    int [] Sampling(int [] a, int begin, int end ){
+    static int [] Sampling(int [] a, int begin, int end ){
         int [] array = new int[3];
         Random rand = new Random();
         for (int i = 0; i < 3; i++) {
@@ -53,9 +66,9 @@ public class Main {
 
         }
         Arrays.sort(array);
-        System.out.println(array[0]);
-        System.out.println(array[1]);
-        System.out.println(array[2]);
+        //System.out.println(array[0]);
+        //System.out.println(array[1]);
+        //System.out.println(array[2]);
         return array;
     }
     public static boolean contains(int[] array, int value) {
@@ -67,7 +80,7 @@ public class Main {
         return false;
     }
 
-    private int hoare(int[] array, int start, int end, int pivot) {
+    private static int hoare(int[] array, int start, int end, int pivot) {
         int i = start, j = end, swap;
         while (true) {
             while (array[i] < pivot) {
@@ -79,9 +92,9 @@ public class Main {
             if (i > j) {
                 return j-1;
             }
-            swap = i;
-            i = j;
-            j = swap;
+            swap = array[i];
+            array[i] = array[j];
+            array[j] = swap;
         }
     }
 
@@ -97,37 +110,16 @@ public class Main {
         }
         in.close();
 
-        //ptpSort(a);
+        long start = System.currentTimeMillis();
+        PTPSort(array, 0, arraySize-1);
+        long finish = System.currentTimeMillis();
+        long timeElapsed = finish - start;
         //test if is sorted, test array below.
-        int[] testArray = {10, 2, 3, 4, 5, 6, 7, 7, 7, 10};
+        //int[] testArray = {10, 2, 3, 4, 5, 6, 7, 7, 7, 10};
         Main main = new Main();
-        main.PTPSort(testArray,0,10);
-        main.Sampling(testArray,0,10);
-        System.out.println(main.testIfSorted(testArray));
+        //main.PTPSort(testArray,0,10);
+        //main.Sampling(testArray,0,10);
+        System.out.println(main.testIfSorted(array) + "\n" + timeElapsed + " ms");
+    }
 }
-    int [] Sampling(int [] a, int begin, int end ){
-        int [] array = new int[3];
-        Random rand = new Random();
-        for (int i = 0; i < 3; i++) {
-            int index = rand.nextInt(end - begin + 1) + begin;
-            while (contains(array, index)) {
-                index = rand.nextInt(end - begin + 1) + begin;
-            }
-            array[i] = index;
-
-        }
-        Arrays.sort(array);
-        System.out.println(array[0]);
-        System.out.println(array[1]);
-        System.out.println(array[2]);
-        return array;
-    }
-    public static boolean contains(int[] array, int value) {
-        for (int num : array) {
-            if (num == value) {
-                return true;
-            }
-        }
-        return false;
-    }
 
