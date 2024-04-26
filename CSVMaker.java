@@ -1,13 +1,16 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
-
+import java.util.Scanner;
 
 //code that creates a CSV file of specified size with random positive integers
 public class CSVMaker {
-    public static void main(String[] args) {
+    public static void makeCSV(){
         // Define the number of integers to generate
-        int numberOfIntegers = 100000;
+        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Enter what you want your array size to be: ");
+
+        int numberOfIntegers = myObj.nextInt();
 
         // Create a StringBuilder to hold CSV content
         StringBuilder csvContent = new StringBuilder();
@@ -31,7 +34,7 @@ public class CSVMaker {
         try (FileWriter writer = new FileWriter("integers.csv")) {
             writer.write(numberOfIntegers + ",");
             writer.append(csvContent.toString());
-            System.out.println("CSV file 'integers.csv' has been created successfully.");
+            System.out.println("CSV file 'integers.csv' of size "+numberOfIntegers +" has been created successfully.");
         } catch (IOException e) {
             System.err.println("An error occurred while writing the CSV file: " + e.getMessage());
         }

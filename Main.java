@@ -29,7 +29,7 @@ public class Main {
         int len = (end-beg)/2;
         int[] sample = Sampling(a, beg, end);
         int iPlo = sample[0], iPmi = sample[1], iPhi = sample[2];
-        
+
         Thread leftHalf = new Thread(() -> {iL = hoare(a, beg, beg+len-1, a[iPlo]);});
         Thread rightHalf = new Thread(() -> {iH = hoare(a, beg+len, end, a[iPhi]);});
         leftHalf.start();
@@ -41,11 +41,11 @@ public class Main {
         }
         int iM = hoare(a, iL, iH-1, a[iPmi]);
         leftHalf = new Thread(() -> {ilm = hoare(a, iL, iM-1, a[iPlo]);
-                                    PTPSort(a, beg, ilm-1);
-                                    PTPSort(a, ilm, iM-1);});
+            PTPSort(a, beg, ilm-1);
+            PTPSort(a, ilm, iM-1);});
         rightHalf = new Thread(() -> {imh = hoare(a, iM, iH-1, a[iPhi]);
-                                    PTPSort(a, iM, imh-1);
-                                    PTPSort(a, imh, end);});
+            PTPSort(a, iM, imh-1);
+            PTPSort(a, imh, end);});
         leftHalf.start();
         rightHalf.start();
         try {
@@ -99,6 +99,8 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
+        CSVMaker.makeCSV();
+
         int arraySize, i = 0;
         File csv = new File("integers.csv");
         Scanner in = new Scanner(csv);
@@ -119,7 +121,12 @@ public class Main {
         Main main = new Main();
         //main.PTPSort(testArray,0,10);
         //main.Sampling(testArray,0,10);
-        System.out.println(main.testIfSorted(array) + "\n" + timeElapsed + " ms");
+        if(main.testIfSorted(array)){
+            System.out.println("\nYour array is successfully sorted!");
+        }
+        else{
+            System.out.println("error");
+        }
+        System.out.println("Time taken for the code to run: " + timeElapsed + " ms");
     }
 }
-
